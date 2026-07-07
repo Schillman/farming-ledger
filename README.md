@@ -25,9 +25,3 @@ That also means:
 - Clearing your browser's site data for the page wipes it.
 - Use the **Export** button (top right) any time to copy your progress to the clipboard as a small text blob, and **Import** to paste it back in on another browser or device.
 - In some in-chat preview sandboxes, `localStorage` may not persist between reloads. Once the file is actually hosted or opened normally in a browser, it will.
-
-## A couple of honest caveats
-
-- This was built and reviewed entirely in code, there's no browser available on my end to render and screenshot it, so it's been checked for valid markup, working JavaScript, and WCAG AA color contrast, but not pixel-tested. Open it up and let me know if anything looks off.
-- No official Diablo art or screenshots are used anywhere. The look is built entirely from CSS (gradients, a subtle grain texture, type, and color) rather than any Blizzard-owned imagery.
-- A few terms in the source video's transcript were garbled by automatic captioning. Terminology and drop-rate details here were corrected against current patch information where possible; a couple of items say outright when something is unconfirmed or was still shifting as of early Season 14, since Blizzard does still tune these numbers mid-season.
