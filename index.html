@@ -272,6 +272,28 @@ a{color:var(--accent-hi);}
   background:var(--accent);
   color:var(--accent-ink);
 }
+.pri-toggle{
+  appearance:none;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--ink-dim);
+  font-family:var(--font-cond);
+  font-weight:600;
+  font-size:13px;
+  letter-spacing:.03em;
+  padding:7px 14px;
+  border-radius:99px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  flex:0 0 auto;
+  white-space:nowrap;
+  transition:background .15s var(--ease),border-color .15s var(--ease),color .15s var(--ease);
+}
+.pri-toggle:hover{border-color:var(--gold-dim);color:var(--ink);}
+.pri-toggle.is-active{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);}
+.pri-toggle i{font-size:14px;}
 .chips{
   display:flex;
   gap:8px;
@@ -668,6 +690,9 @@ body.modal-open{overflow:hidden;}
         <button class="status-btn" data-status="remaining" type="button" aria-pressed="false">Remaining</button>
         <button class="status-btn" data-status="done" type="button" aria-pressed="false">Done</button>
       </div>
+      <button class="pri-toggle" id="priority-toggle" type="button" aria-pressed="false">
+        <i class="ph ph-star" aria-hidden="true"></i>High Priority
+      </button>
     </div>
     <div class="chips" id="category-chips" role="group" aria-label="Filter by category"></div>
   </div>
@@ -1175,7 +1200,7 @@ const DESCRIPTIONS = {
   };
 
   var state = loadState();
-  var filters = { status:"all", search:"", categories:new Set(DATA.map(function(c){return c.id;})) };
+  var filters = { status:"all", search:"", priorityOnly:false, categories:new Set(DATA.map(function(c){return c.id;})) };
 
   function loadState(){
     try{
@@ -1203,8 +1228,9 @@ const DESCRIPTIONS = {
   function buildItemHTML(item){
     var checked = state[item.id] ? "checked" : "";
     var doneClass = state[item.id] ? " is-done" : "";
+    var pri = (item.tags && item.tags.indexOf("priority") !== -1) ? ' data-priority="1"' : '';
     return (
-      '<li class="item'+doneClass+'" data-id="'+item.id+'">'+
+      '<li class="item'+doneClass+'" data-id="'+item.id+'"'+pri+'>'+
         '<label class="item__label">'+
           '<input type="checkbox" class="item__check-input" data-id="'+item.id+'" '+checked+'>'+
           '<span class="item__box" aria-hidden="true"><svg class="item__check-icon" viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'+
@@ -1313,7 +1339,8 @@ const DESCRIPTIONS = {
         var done = !!state[id];
         var statusOk = filters.status==="all" || (filters.status==="done"&&done) || (filters.status==="remaining"&&!done);
         var searchOk = !term || (itemEl.dataset.search||"").indexOf(term) !== -1;
-        var visible = catAllowed && statusOk && searchOk;
+        var priorityOk = !filters.priorityOnly || itemEl.dataset.priority === "1";
+        var visible = catAllowed && statusOk && searchOk && priorityOk;
         itemEl.classList.toggle("is-hidden", !visible);
         if(visible){ anyVisible = true; visibleTotal++; }
       });
@@ -1414,6 +1441,14 @@ const DESCRIPTIONS = {
       });
     });
 
+    var priToggle = document.getElementById("priority-toggle");
+    priToggle.addEventListener("click", function(){
+      filters.priorityOnly = !filters.priorityOnly;
+      priToggle.classList.toggle("is-active", filters.priorityOnly);
+      priToggle.setAttribute("aria-pressed", filters.priorityOnly ? "true" : "false");
+      applyFilters();
+    });
+
     chipsRoot.addEventListener("click", function(e){
       var chip = e.target.closest(".chip");
       if(!chip) return;
@@ -1433,6 +1468,9 @@ const DESCRIPTIONS = {
     document.getElementById("clear-filters-btn").addEventListener("click", function(){
       filters.status = "all"; filters.search = "";
       filters.categories = new Set(DATA.map(function(c){return c.id;}));
+      filters.priorityOnly = false;
+      priToggle.classList.remove("is-active");
+      priToggle.setAttribute("aria-pressed","false");
       document.getElementById("search-input").value = "";
       document.querySelectorAll(".status-btn").forEach(function(b){
         var isAll = b.dataset.status==="all";
