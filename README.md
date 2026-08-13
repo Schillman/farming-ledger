@@ -21,7 +21,8 @@ You can also just double-click `index.html` to open it straight in a browser, no
 Checked items are saved to `localStorage` in your browser, under one key, the moment you click a checkbox. There's no account and nothing is sent anywhere.
 
 That also means:
-- Progress is per-browser, per-device. Checking things off on your phone won't show up on your desktop.
+- Progress is per-browser, per-device, and per web address. Checking things off on your phone won't show up on your desktop, and the copy saved at one address is invisible to any other address, which is why the handoff below exists.
 - Clearing your browser's site data for the page wipes it.
 - Use the **Export** button (top right) any time to copy your progress to the clipboard as a small text blob, and **Import** to paste it back in on another browser or device.
+- **Take my progress with me**, in the notice at the top, is the one-click version of that for the move to `schillman.se/d4/ledger`. It packs your saved progress into the link it sends you across on, and the new page unpacks it on arrival. Export and Import still work as the manual fallback if anything goes wrong.
 - In some in-chat preview sandboxes, `localStorage` may not persist between reloads. Once the file is actually hosted or opened normally in a browser, it will.
