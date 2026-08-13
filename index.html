@@ -711,7 +711,7 @@ body.modal-open{overflow:hidden;}
   <footer class="site-footer">
     <p>Notes distilled from a Season 14 farming guide and checked against current Blizzard patch notes and War Plans data as of early Season of Death Awakening. Terminology and drop rates can still shift as the season gets patched, especially anything marked new this season.</p>
     <p>Progress is stored only in this browser's local storage. Nothing is sent anywhere, and there is no account or sign in. Use Export before clearing your browser data, or to move progress to another device.</p>
-    <p class="site-footer__nav"><a href="https://schillman.se/">schillman.se</a> <a href="https://schillman.se/privacy.html">Privacy and cookies</a> <a href="https://github.com/Schillman/farming-ledger">Source on GitHub</a></p>
+    <p class="site-footer__nav"><a href="https://schillman.se/">schillman.se</a> <a href="https://schillman.se/guides.html">Season 14 guides</a> <a href="https://schillman.se/about.html">About</a> <a href="https://schillman.se/contact.html">Contact</a> <a href="https://schillman.se/privacy.html">Privacy and cookies</a> <a href="https://github.com/Schillman/farming-ledger">Source on GitHub</a></p>
     <p>An independent fan site. Diablo IV is a trademark of Blizzard Entertainment, Inc. This site is not affiliated with, sponsored by or endorsed by Blizzard Entertainment.</p>
   </footer>
 
@@ -805,8 +805,8 @@ const DATA = [
         detail:"Costs 2 Resplendent Sparks for a random pull from the fixed original pool (Grandfather, Harlequin Crest, Ring of Starless Skies, Melted Heart of Selig, Tyrael's Might and the rest). Only this station produces those specific items." },
       { id:"myt-2", title:"Craft a slot targeted Mythic at the Jeweler",
         detail:"Costs runes plus 2 Sparks for a random standard Mythic in whichever slot you choose. Good for filling a gap the Iconic pool doesn't cover." },
-      { id:"myt-3", title:"Stockpile 5 Pandemonium Fragments per Cube attempt",
-        detail:"The Horadric Cube's Mythic upgrade turns a strong, high item power Unique you already own into a Mythic. Bank a real buffer before committing rather than crafting the moment you cross 5." },
+      { id:"myt-3", title:"Stockpile 4 Pandemonium Fragments per Cube attempt",
+        detail:"The Horadric Cube's Mythic upgrade turns a strong, high item power Unique you already own into a Mythic. Patch 3.1.1 cut the cost from 5 Fragments to 4. Bank a real buffer before committing rather than crafting the moment you cross the threshold." },
       { id:"myt-4", title:"Farm the Corrupted Reaper with Superior Lair Keys", tags:["s14-new","priority"],
         detail:"This season's Lair Boss, fought at The Pandemonium Threshold in Zarbinzet. Its Hoard carries the best Mythic and Fragment odds of any boss right now, and you open it with Superior Lair Keys in Torment 1 and above." },
       { id:"myt-5", title:"Push the Nemesis Lair chain for the biggest single session swings",
@@ -942,8 +942,8 @@ const DATA = [
       { id:"pan-1", title:"Farm the Corrupted Reaper with Superior Lair Keys", tags:["priority","s14-new"],
         detail:"The Hoard is the most reliable Pandemonium Fragment source in the game right now, opened with Superior Lair Keys in Torment 1 and above." },
       { id:"pan-2", title:"Bank Glints of Hope on the Zarbinzet reputation board",
-        detail:"This board is supposed to pay out Fragments too, though plenty of players, including the creator of the source guide, hadn't reliably seen that payout early in the season. Treat it as a bonus track until you've confirmed it's working for you." },
-      { id:"pan-3", title:"Budget 5 Fragments per Cube attempt",
+        detail:"Since patch 3.1.1 the repeatable Glints of Hope reward guarantees a Pandemonium Fragment rather than rolling for one, so this is a second reliable Fragment income stream and no longer just a bonus track." },
+      { id:"pan-3", title:"Budget 4 Fragments per Cube attempt",
         detail:"Stockpile a real buffer before committing rather than crafting the instant you cross the threshold, since the outcome is still partly random." }
     ]
   }
@@ -1020,17 +1020,17 @@ const DESCRIPTIONS = {
   ],
   "myt-1": [
     "Crafting a guaranteed Mythic at the <strong>Blacksmith</strong> for <strong>2 Resplendent Sparks</strong> is the classic Diablo IV path for a random pull from the fixed original pool (Grandfather, Harlequin Crest, Ring of Starless Skies, Melted Heart of Selig, Tyrael's Might and the rest).",
-    "Sparks come from salvaging Mythics and from various endgame rewards, so this is the slow but certain route when RNG will not hand you the one you want.",
-    "Flag: research confirmed the Season 14 Mythic path through the Horadric Cube (Pandemonium Fragments) but did not confirm a distinct Blacksmith Iconic Mythic path as a Season 14 feature. The 2 Spark Blacksmith craft is established base game behavior, so verify it still reads this way on your Blacksmith before banking Sparks for it."
+    "Sparks come from salvaging Mythics and from various endgame rewards, so this is the slow but certain route when RNG will not hand you the one you want. Current cost is <strong>2 Resplendent Sparks plus 50,000,000 gold</strong>.",
+    "Confirmed as a live Season 14 path: the 3.1.1 patch notes add El'Druin, Sword of Justice to the Blacksmith's Mythic Unique Cache pool. Note that a crafted Mythic carries a <strong>Crafted</strong> tag, and you can only equip one crafted Mythic at a time."
   ],
   "myt-2": [
-    "The pitch is a slot targeted Mythic: spend runes plus 2 Sparks at the <strong>Jeweler</strong> to pull a random standard Mythic in a slot you choose, handy for covering a gap the fixed Iconic pool does not.",
-    "Flag: this Jeweler crafting path was not confirmed against current Season 14 sources during research. Only the Horadric Cube conversion (Pandemonium Fragments) is confirmed as a Season 14 Mythic path, so treat the Jeweler route as unverified until you can see the recipe in game."
+    "A slot targeted Mythic: <strong>3 Resplendent Sparks</strong>, nine specific runes in three sets of three, and <strong>5,000,000 gold</strong> pulls a random standard Mythic in the slot whose recipe you used. It cannot produce Iconic Mythics.",
+    "Flag: sources disagree on which vendor hosts this recipe and which hosts the Iconic cache. The costs are consistent across sources, only the counter is disputed, so check both the Jeweler and the Blacksmith rather than trusting either arrangement."
   ],
   "myt-3": [
-    "The confirmed Season 14 Mythic path is the <strong>Horadric Cube</strong> conversion: it upgrades a strong Unique you already own into a Mythic. Per Maxroll this costs around <strong>5 Pandemonium Fragments</strong> plus a high item power Unique (roughly 850 or above), and the result is always Ancestral with its <strong>Unique Powers increased by 30%</strong>.",
-    "Bank a real buffer of Fragments and a genuinely good donor Unique before committing, rather than converting the instant you cross 5, so you are upgrading something worth keeping.",
-    "Confirmed against Maxroll and the Blizzard season announcement. The exact 5 Fragment and 850 item power figures are community reported and can move with hotfixes."
+    "The seasonal Mythic path is the <strong>Horadric Cube</strong> conversion: it upgrades a strong Unique you already own into a random Mythic from that slot's category. Cost is <strong>4 Pandemonium Fragments</strong> since patch 3.1.1 cut it from 5, plus a donor Unique at item level 850 or above. The result is always Ancestral with its <strong>Unique Powers increased by 30%</strong> and every other affix at maximum.",
+    "Bank a real buffer of Fragments and a genuinely good donor Unique before committing, rather than converting the instant you cross 4, so you are upgrading something worth keeping.",
+    "Cost confirmed against the 3.1.1 patch notes. The 850 item power figure is from Maxroll and can move with hotfixes."
   ],
   "myt-4": [
     "The <strong>Corrupted Reaper</strong> is Season 14's new seasonal Lair Boss, fought at <strong>The Pandemonium Threshold</strong> in <strong>Zarbinzet</strong> (Hawezar). Its Hoard has the best confirmed direct drop chances for both Mythic Uniques and Pandemonium Fragments of any activity this season, and it also rolls from the General Unique Pool.",
@@ -1177,17 +1177,18 @@ const DESCRIPTIONS = {
   ],
   "pan-1": [
     "<strong>Pandemonium Fragments</strong> are Season 14's dedicated Mythic crafting currency, and the <strong>Corrupted Reaper</strong> (at The Pandemonium Threshold in Zarbinzet) is the best confirmed source. You open its Hoard with <strong>Superior Lair Keys</strong> at Torment 1 and above.",
-    "Farm Superior Lair Keys from Deathtoll Chambers via Pandemonium Ruptures and Realmwalkers, then spend them on Reaper Hoards for the Fragments (and a strong shot at Mythic Uniques too)."
+    "Farm Superior Lair Keys from Deathtoll Chambers via Pandemonium Ruptures and Realmwalkers, then spend them on Reaper Hoards for the Fragments (and a strong shot at Mythic Uniques too).",
+    "Since patch 3.1.1 the Reaper drops up to two Fragments per kill, scaling with your Torment tier, so the difficulty you can hold is a direct multiplier on your Mythic rate."
   ],
   "pan-2": [
     "Closing <strong>Pandemonium Ruptures</strong> earns <strong>Glints of Hope</strong>, which you redeem at the <strong>reputation board in Zarbinzet</strong>. Maxroll frames this as a 24 rank reputation track that pays out caches, Masterwork materials and Pandemonium Fragments, so it is a genuine secondary Fragment source, not just flavor.",
     "Work the track alongside your Reaper runs, since the reputation rewards accrue as you close Ruptures anyway.",
-    "Confirmed against the Blizzard season announcement and Maxroll. It is a single reputation board and Glints behave as a reputation track rather than a spendable currency, which matches the original note's caution about early inconsistency."
+    "Since patch 3.1.1 the repeatable Glints of Hope reward <strong>guarantees</strong> a Pandemonium Fragment rather than rolling for one, which is what turned this from an unreliable bonus track into a second Fragment income stream."
   ],
   "pan-3": [
-    "Each Horadric Cube Mythic conversion costs around <strong>5 Pandemonium Fragments</strong> plus a high item power Unique, and the outcome is partly random, so stockpile a buffer rather than converting the instant you hit 5.",
-    "A buffer lets you take a few swings at a good donor Unique instead of being forced to spend on the first one.",
-    "Confirmed conversion path (Maxroll, Blizzard). The 5 Fragment cost is community reported and may shift with hotfixes."
+    "Each Horadric Cube Mythic conversion costs <strong>4 Pandemonium Fragments</strong> plus a high item power Unique, and the outcome is partly random, so stockpile a buffer rather than converting the instant you hit 4.",
+    "A buffer lets you take a few swings at a good donor Unique instead of being forced to spend on the first one. Two clean Corrupted Reaper kills plus a repeatable reputation reward is roughly one attempt.",
+    "Cost confirmed against the 3.1.1 patch notes, which reduced it from 5 Fragments to 4."
   ]
 };
 </script>
