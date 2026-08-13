@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Season 14 Farming Ledger : Diablo IV Death Awakening</title>
 <meta name="description" content="An offline-friendly checklist for farming everything in Diablo IV Season 14, Season of Death Awakening. Tracks Aspects, Mythic Uniques, Lair Keys, gems, gold, Obols, Souls, Dust, Runes and Pandemonium Fragments. Progress saves locally in your browser.">
+<link rel="canonical" href="https://schillman.se/d4/ledger">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23100d0f'/%3E%3Cpath d='M32 10c-9 14-13 21-8 30 -3-7 4-10 8-6 4-4 11-1 8 6 5-9 1-16-8-30Z' fill='%23ff5a36'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -197,6 +198,77 @@ a{color:var(--accent-hi);}
   background:var(--accent);
   border-color:var(--accent);
   color:var(--accent-ink);
+}
+.btn--primary{
+  background:var(--accent);
+  border-color:var(--accent);
+  color:var(--accent-ink);
+  font-size:14px;
+  padding:11px 18px;
+}
+.btn--primary:hover{background:var(--accent-hi);border-color:var(--accent-hi);color:var(--accent-ink);}
+
+/* ============================================================
+   MOVED NOTICE
+   Same 14px panel shape as a category, ember left edge instead of
+   gold because this is the one thing on the page asking to be read
+   first. No new colors. Softens to .is-quiet once progress has
+   been handed off, see the second script.
+   ============================================================ */
+.moved{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px 24px;
+  margin-top:22px;
+  padding:18px 20px;
+  background:var(--surface-hi);
+  border:1px solid var(--border);
+  border-left:3px solid var(--accent);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-panel);
+}
+.moved__body{flex:1 1 320px;min-width:0;}
+.moved__title{
+  font-family:var(--font-cond);
+  font-size:18px;
+  font-weight:700;
+  letter-spacing:.01em;
+  color:var(--ink);
+}
+.moved__text{
+  margin-top:5px;
+  font-size:13.5px;
+  line-height:1.55;
+  color:var(--ink-dim);
+  max-width:64ch;
+}
+.moved__title-quiet,.moved__text--quiet{display:none;}
+.moved.is-quiet{
+  padding:12px 16px;
+  background:var(--surface);
+  border-left-color:var(--gold-dim);
+  box-shadow:none;
+}
+.moved.is-quiet .moved__title{font-size:14px;color:var(--ink-dim);}
+.moved.is-quiet .moved__title-full,.moved.is-quiet .moved__text--full{display:none;}
+.moved.is-quiet .moved__title-quiet,.moved.is-quiet .moved__text--quiet{display:inline;}
+.moved.is-quiet .moved__text{margin-top:2px;}
+.moved.is-quiet .btn--primary{
+  background:var(--surface-hi);
+  border-color:var(--border);
+  color:var(--ink-dim);
+  font-size:13px;
+  padding:9px 14px;
+}
+.moved.is-quiet .btn--primary:hover{background:var(--surface-hi);border-color:var(--gold-dim);color:var(--ink);}
+@media (prefers-reduced-motion: no-preference){
+  .moved{animation:moved-in .3s var(--ease) both;}
+  @keyframes moved-in{
+    from{opacity:0;transform:translateY(-6px);}
+    to{opacity:1;transform:none;}
+  }
 }
 
 /* ============================================================
@@ -681,6 +753,18 @@ body.modal-open{overflow:hidden;}
       </div>
     </div>
   </header>
+
+  <section class="moved" id="moved-notice" aria-labelledby="moved-title">
+    <div class="moved__body">
+      <h2 class="moved__title" id="moved-title">
+        <span class="moved__title-full">The ledger has moved to schillman.se</span>
+        <span class="moved__title-quiet">You have already moved to the new ledger</span>
+      </h2>
+      <p class="moved__text moved__text--full">It now lives at <a href="https://schillman.se/d4/ledger">schillman.se/d4/ledger</a>. This page keeps working exactly as it does today, so nothing breaks if you stay. Your ticked items do not follow you on their own, because a browser keeps saved data separate for every web address. One click takes them over.</p>
+      <p class="moved__text moved__text--quiet">It lives at <a href="https://schillman.se/d4/ledger">schillman.se/d4/ledger</a>. Anything you tick here stays here, so send it across again whenever you want.</p>
+    </div>
+    <button class="btn btn--primary" id="moved-go" type="button">Take my progress with me</button>
+  </section>
 
   <div class="controls" id="controls">
     <div class="controls__top">
@@ -1197,6 +1281,9 @@ const DESCRIPTIONS = {
   "use strict";
 
   var STORAGE_KEY = "d4s14-farming-ledger.v1";
+  var MOVED_KEY = "d4s14-farming-ledger.moved";
+  var NEW_URL = "https://schillman.se/d4/ledger";
+  var MAX_HASH = 8000;
   var TAG_LABELS = {
     "priority":"Priority",
     "s14-new":"New S14",
@@ -1216,6 +1303,19 @@ const DESCRIPTIONS = {
   }
   function saveState(){
     try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){ /* storage unavailable, fail silently */ }
+  }
+
+  /* base64url: standard base64, then + -> -, / -> _, no padding. The
+     receiving page at schillman.se/d4/ledger decodes this exact format. */
+  function base64url(str){
+    var bytes = new TextEncoder().encode(str);
+    var bin = "";
+    for(var i=0;i<bytes.length;i++){ bin += String.fromCharCode(bytes[i]); }
+    return btoa(bin).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+  }
+
+  function hasMoved(){
+    try{ return !!localStorage.getItem(MOVED_KEY); }catch(e){ return false; }
   }
 
   function allItems(){
@@ -1315,6 +1415,7 @@ const DESCRIPTIONS = {
     });
     updateCounts();
     applyFilters();
+    applyMovedState();
     bindEvents();
   }
 
@@ -1550,6 +1651,25 @@ const DESCRIPTIONS = {
         showToast("That backup text couldn't be read");
       }
     });
+
+    document.getElementById("moved-go").addEventListener("click", function(){
+      var payload = Object.keys(state).length ? base64url(JSON.stringify(state)) : "";
+      /* ponytail: 48 booleans encode to well under 1 kB, so this branch is
+         effectively unreachable. alert() because it must not be missable and
+         the toast is gone in two seconds. */
+      if(payload.length > MAX_HASH){
+        window.alert("Your progress is too big to carry in a link. Use Export on this page, open " + NEW_URL + ", then use Import there.");
+        return;
+      }
+      try{ localStorage.setItem(MOVED_KEY, "1"); }catch(e){ /* storage unavailable, the trip still works */ }
+      window.location.href = payload ? NEW_URL + "#import=" + payload : NEW_URL;
+    });
+  }
+
+  function applyMovedState(){
+    if(!hasMoved()) return;
+    document.getElementById("moved-notice").classList.add("is-quiet");
+    document.getElementById("moved-go").textContent = "Send my progress again";
   }
 
   init();
